@@ -1,4 +1,4 @@
-# ThemeBlog (Lifetech-ready)
+# ThemeBlog
 
 Lightweight Lifetech theme project built with HTML, Tailwind CSS and JavaScript.
 
@@ -15,9 +15,8 @@ ThemeBlog is a reusable theme and admin layout prepared for Lifetech OCMS (PHP).
 ## Requirements
 
 - PHP 8.0+ (recommended)
-- MySQL 5.7+ or MariaDB
+- MySQL 5.7+
 - Composer (for Lifetech OCMS installation)
-- Optional: Node.js + npm for Tailwind tooling
 
 This project is designed to be used inside a Lifetech OCMS installation. See Lifetech docs: https://www.lifetech.host/hubs/Docs
 
@@ -69,16 +68,3 @@ This project is released under the MIT License — see [LICENSE](LICENSE).
 ## Contributing
 
 Contributions are welcome. If you're targeting Lifetech integration, open a PR and reference Lifetech docs where relevant.
-
-## Ready to push
-
-```bash
-git init
-git add .
-git commit -m "Initial ThemeBlog (Lifetech-ready)"
-git branch -M main
-git remote add origin <your-git-remote-url>
-git push -u origin main
-```
-
-If you want, I can add Lifetech-specific `README` snippets, a `composer.json` example, or a minimal GitHub Actions workflow.
