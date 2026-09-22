@@ -1,0 +1,51 @@
+# Node
+node_modules/
+
+# PHP
+vendor/
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Build outputs
+/dist/
+/public/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+
+# Misc
+*.local
+
+# Ignore index.php files sometimes included for folder protection
+**/index.php
+
+# Sensitive files
+.env
+.env.*
+# Private keys
+*.pem
+*.key
+# SSH keys
+id_rsa
+id_rsa.pub
+# Certificates
+*.crt
+# htpasswd
+.htpasswd
+# WordPress config
+wp-config.php
+# Local PHP configs
+*.local.php
+# Credentials
+credentials.json
+*.sqlite
+*.sqlite3
+*.phpinfo
