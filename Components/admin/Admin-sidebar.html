@@ -1,0 +1,193 @@
+
+<aside class="sidebar-panel fixed inset-y-0 left-0 z-40 w-72 border-r border-slate-200 bg-white/90 p-5 backdrop-blur-xl transition-transform duration-300 -translate-x-full dark:border-slate-800 dark:bg-slate-900/90 lg:static lg:translate-x-0">
+    <div class="flex items-center gap-3 rounded-2xl border border-violet-200 bg-violet-50 px-3 py-3 dark:border-violet-500/20 dark:bg-violet-500/10">
+      <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-600 text-white"><i class="fa-solid fa-pen-nib"></i></div>
+      <div>
+        <div class="text-lg font-bold"><?=  ltSiteName()  ?></div>
+        <div class="text-xs text-slate-500 dark:text-slate-400">Editorial admin</div>
+      </div>
+    </div>
+    <nav class="mt-8 space-y-2 overflow-y-auto scrollbar-hide" id="mainNav"></nav>
+    <!--<div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/60">-->
+    <!--  <div class="flex items-center justify-between"><span class="text-sm">This week</span><span class="rounded-full bg-emerald-500/15 px-2 py-1 text-[10px] font-bold text-emerald-600">+18%</span></div>-->
+    <!--  <div class="mt-4 text-3xl font-bold">87.4K</div>-->
+    <!--  <div class="mt-2 text-xs text-slate-500 dark:text-slate-400">unique visitors</div>-->
+    <!--</div>-->
+</aside>
+
+<script>
+    
+document.addEventListener("DOMContentLoaded", () => {
+
+    let ASIDE = [
+        {
+            ltId: "dashboard",
+            menuName: "Dashboard",
+            icon: "fas fa-tachometer-alt",
+            routePath: "",
+            menuLevel: 1
+        }
+    ];
+
+
+    /**
+     * Render navigation menu
+     */
+    function renderMenu() {
+        const nav = document.getElementById("mainNav");
+
+        if (!nav) return;
+
+        const menuHtml = ASIDE
+            .filter(item => item.menuLevel === 1)
+            .map(item => renderMenuItem(item))
+            .join("");
+
+        nav.innerHTML = menuHtml;
+    }
+
+
+    /**
+     * Render menu item recursively
+     */
+    function renderMenuItem(item, level = 0) {
+
+        const hasChildren =
+            Array.isArray(item.children) &&
+            item.children.length > 0;
+
+        const submenuId = `submenu-${item.ltId}`;
+        const paddingClass =
+            level === 0
+                ? "px-3 py-3 text-sm"
+                : level === 1
+                    ? "pl-8 pr-3 py-2.5 text-xs"
+                    : "pl-12 pr-3 py-2 text-xs";
+
+        let html = `
+            <div class="menu-item-wrapper">
+                <a href="<?=ltSiteHostAddress()?>${item.routePath || "#"}" target="_self" class="menu-link flex w-full items-center justify-between rounded-xl ${paddingClass} font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors"
+                    data-menu-id="${item.ltId}" ${hasChildren ? `data-submenu="${submenuId}"` : ""}>
+                    <span class="flex items-center gap-3">
+                        <i class="${item.icon || 'fa-duotone fa-solid fa-layer-group'} w-5"></i>
+                        <span>
+                            ${item.menuName}
+                        </span>
+                    </span>
+                    ${hasChildren? `
+                                <i
+                                    class="fa-solid fa-chevron-down transition-transform"
+                                    id="chevron-${item.ltId}"
+                                ></i>
+                            `: ""}
+                </a>`;
+        if (hasChildren) {
+            html += `
+                <div
+                    class="submenu hidden space-y-1 my-1 max-h-[60vh] overflow-y-auto scrollbar-hide"
+                    id="${submenuId}"
+                >
+                    ${item.children
+                        .map(child =>
+                            renderMenuItem(child, level + 1)
+                        )
+                        .join("")}
+                </div>
+            `;
+        }
+        html += `</div>`;
+        return html;
+    }
+
+
+    /**
+     * Load navigation menus
+     */
+    async function loadMenus() {
+
+        try {
+
+            const response = await fetch(
+                `${BASE_URL}/menus/is-navigation?packageName=ThemeBlog`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        Authorization: `Bearer ${LW_TOKEN}`,
+                        Accept: "application/json"
+                    }
+                }
+            );
+
+
+            const {
+                responseData,
+                responseCategory
+            } = await response.json();
+
+
+            if (responseCategory === 200) {
+
+                ASIDE.push(...responseData);
+
+                renderMenu();
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Failed to load navigation menus:",
+                error
+            );
+        }
+    }
+
+
+    document.addEventListener("click", (e) => {
+        const menuLink = e.target.closest("[data-submenu]");
+        if (!menuLink) return;
+
+        e.preventDefault();
+
+        const submenuId = menuLink.dataset.submenu;
+        const targetSubmenu = document.getElementById(submenuId);
+        if (!targetSubmenu) return;
+
+        const targetChevron = menuLink.querySelector(".fa-chevron-down");
+        const isOpening = targetSubmenu.classList.contains("hidden");
+
+        // 1. Find the parent container to scope the search (either the parent submenu or main nav)
+        const parentContainer = menuLink.closest('.submenu') || document.getElementById('mainNav');
+
+        // 2. Find all currently open submenus at this EXACT DOM level
+        // :scope ensures we only get direct submenu children of the wrappers
+        const peerSubmenus = parentContainer.querySelectorAll(':scope > .menu-item-wrapper > .submenu:not(.hidden)');
+
+        // 3. Close all peers
+        peerSubmenus.forEach(submenu => {
+            // Don't close the one we are actively trying to toggle
+            if (submenu.id !== submenuId) {
+                submenu.classList.add("hidden");
+                
+                // Reset the chevron for the closed submenu
+                const peerLink = submenu.previousElementSibling;
+                const peerChevron = peerLink?.querySelector(".fa-chevron-down");
+                if (peerChevron) peerChevron.classList.remove("rotate-180");
+            }
+        });
+
+        // 4. Toggle the target submenu
+        if (isOpening) {
+            targetSubmenu.classList.remove("hidden");
+            targetChevron?.classList.add("rotate-180");
+        } else {
+            targetSubmenu.classList.add("hidden");
+            targetChevron?.classList.remove("rotate-180");
+        }
+    });
+
+    loadMenus();
+
+});
+    
+</script>

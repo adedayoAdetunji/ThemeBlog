@@ -1,0 +1,38 @@
+<footer class="mt-4">
+  <div class="spectrum-bar"></div>
+  <div class="bg-ink text-paper">
+    <div class="container mx-auto px-6 py-14 grid md:grid-cols-3 gap-10">
+
+      <div>
+        <p class="font-display font-semibold text-2xl mb-3"><?=  ltSiteName()  ?></p>
+        <p class="text-sm text-paper/60 leading-relaxed max-w-xs">Essays and notes on writing, design, technology, and the slower internet. Published on no particular schedule.</p>
+      </div>
+
+      <div>
+        <p class="font-mono text-xs uppercase tracking-widest text-paper/40 mb-4">Categories</p>
+        <ul id="footer-categories" class="space-y-2 text-sm"></ul>
+      </div>
+
+      <div>
+        <p class="font-mono text-xs uppercase tracking-widest text-paper/40 mb-4">Get new posts by email</p>
+        <form id="newsletter-form" class="flex gap-2" onsubmit="return false;">
+          <input
+            type="email" placeholder="you@example.com" aria-label="Email address"
+            class="footer-input flex-1 min-w-0 bg-white/10 border border-white/15 rounded-md px-3 py-2 text-sm placeholder:text-paper/40 focus:border-pink"
+          />
+          <button type="submit" class="shrink-0 bg-pink text-ink font-mono text-xs uppercase tracking-widest px-4 py-2 rounded-md hover:bg-amber transition-colors">
+            Subscribe
+          </button>
+        </form>
+        <p class="mt-2 text-xs text-paper/40">A demo form — no emails are actually sent.</p>
+      </div>
+    </div>
+
+    <div class="border-t border-white/10">
+      <div class="max-w-5xl mx-auto px-6 py-6 flex flex-wrap justify-between items-center gap-2 font-mono text-xs uppercase tracking-widest text-paper/40">
+        <span>&copy; 2026 Blogora</span>
+        <span>Built with HTML, Tailwind &amp; vanilla JS</span>
+      </div>
+    </div>
+  </div>
+</footer>

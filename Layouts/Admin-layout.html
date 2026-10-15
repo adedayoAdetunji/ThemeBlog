@@ -1,0 +1,88 @@
+
+ <?php  ltImport('ThemeBlog','Admin-top-header.html')  ?>
+
+ 
+ <div id="app" class="min-h-screen">
+     <div class="min-h-screen bg-slate-100 text-slate-800 dark:bg-slate-950 dark:text-slate-100">
+        <div class="flex min-h-screen">
+             <?php  ltImport('ThemeBlog','Admin-sidebar.html')  ?>
+             <div class="flex-1">
+                  <?php  ltImport('ThemeBlog','Admin-header.html')  ?>
+                  <?php  dddm::loadDynamicContent();  ?>
+             </div>
+        </div>
+    </div>
+     
+ </div>
+
+  </body>
+</html>
+
+  <script>
+    
+        document.addEventListener("DOMContentLoaded", () => {
+            const sidebar = document.querySelector(".sidebar-panel");
+            const openSidebarBtn = document.getElementById("openSidebar");
+            
+            if (sidebar) {
+              sidebar.classList.add("-translate-x-full");
+            }
+
+            const closeSidebar = () => {
+              if (!sidebar || window.innerWidth >= 1024) return;
+              sidebar.classList.add("-translate-x-full");
+              sidebar.classList.remove("translate-x-0");
+            };
+        
+            const openSidebar = () => {
+              if (!sidebar || window.innerWidth >= 1024) return;
+              sidebar.classList.remove("-translate-x-full");
+              sidebar.classList.add("translate-x-0");
+            };
+            
+            openSidebarBtn.addEventListener("click", () => {
+              if (sidebar && sidebar.classList.contains("-translate-x-full")) {
+                openSidebar();
+              } else {
+                closeSidebar();
+              }
+            });
+
+            document.addEventListener("click", (event) => {
+              if (!sidebar || !openSidebarBtn) return;
+              const clickedInsideSidebar = sidebar.contains(event.target);
+              const clickedToggle = openSidebarBtn.contains(event.target);
+              if (window.innerWidth < 1024 && !clickedInsideSidebar && !clickedToggle) {
+                closeSidebar();
+              }
+            });
+            
+            setTheme(localStorage.getItem("theme") || "light");
+            const themeToggleBtn = document.getElementById("themeToggle");
+            
+            themeToggleBtn.addEventListener("click", () => {
+              setTheme(
+                document.documentElement.classList.contains("dark") ? "light" : "dark",
+              );
+              syncThemeIcon();
+            });
+            
+            function setTheme(theme) {
+                const isDark = theme === "dark";
+                document.documentElement.classList.toggle("dark", isDark);
+                localStorage.setItem("theme", theme);
+            }
+            
+            function syncThemeIcon() {
+                document.getElementById("themeIcon").className =
+                  document.documentElement.classList.contains("dark")
+                    ? "fa-solid fa-sun"
+                    : "fa-solid fa-moon";
+            }
+              
+              
+            syncThemeIcon();
+        });
+    
+        
+    </script>
