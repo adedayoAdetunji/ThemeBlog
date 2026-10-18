@@ -1,0 +1,37 @@
+[
+  {
+    "layoutName": "Admin-layout.html",
+    "contentName": "Admin-dashboard.html",
+    "layoutPackageName": "ThemeBlog"
+  },
+  {
+    "layoutName": "Admin-layout.html",
+    "contentName": "Manage-category.html",
+    "layoutPackageName": "ThemeBlog"
+  },
+  {
+    "layoutName": "Admin-layout.html",
+    "contentName": "Manage-comment.html",
+    "layoutPackageName": "ThemeBlog"
+  },
+  {
+    "layoutName": "Admin-layout.html",
+    "contentName": "Manage-post.html",
+    "layoutPackageName": "ThemeBlog"
+  },
+  {
+    "layoutName": "Admin-layout.html",
+    "contentName": "Manage-tag.html",
+    "layoutPackageName": "ThemeBlog"
+  },
+    {
+    "layoutName": "Admin-layout.html",
+    "contentName": "Manage-report.html",
+    "layoutPackageName": "ThemeBlog"
+  },
+  {
+    "layoutName": "Admin-layout.html",
+    "contentName": "Manage-settings.html",
+    "layoutPackageName": "ThemeBlog"
+  }
+]

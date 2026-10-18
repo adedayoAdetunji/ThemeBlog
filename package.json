@@ -10,7 +10,7 @@
         }
     ],
     "isPublished": null,
-    "readme": "README.md",
+    "readme": "",
     "languageUsed": "html, tailwind\/css, javascript",
     "description": "Theme Blog",
     "ltVersion": "2.7.4"
